@@ -18,7 +18,12 @@ app.post("/api/fix", upload.single("file"), (req, res) => {
   ffmpeg(inputPath)
     .videoCodec("libx264")
     .audioCodec("aac")
-    .outputOptions(["-preset fast", "-crf 23", "-movflags +frag_keyframe+empty_moov", "-f mp4"])
+    .outputOptions([
+      "-preset fast",
+      "-crf 23",
+      "-movflags +frag_keyframe+empty_moov",
+      "-f mp4"
+    ])
     .on("end", () => {
       res.download(outputPath, "fixed_video.mp4", () => {
         fs.unlink(inputPath, () => {});
@@ -31,4 +36,5 @@ app.post("/api/fix", upload.single("file"), (req, res) => {
     })
     .save(outputPath);
 });
+
 export default app;
