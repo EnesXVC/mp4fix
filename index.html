@@ -7,29 +7,43 @@
     body { font-family: Arial, sans-serif; text-align: center; padding: 50px; background: #f4f4f4; }
     h1 { color: #222; }
     form { margin-top: 30px; background: white; padding: 20px; border-radius: 10px; display: inline-block; }
-    input, button {
-      padding: 10px;
-      margin: 10px;
-      font-size: 16px;
-    }
-    button {
-      background: #4CAF50; 
-      color: white; 
-      border: none; 
-      cursor: pointer;
-      border-radius: 5px;
-    }
+    input, button { padding: 10px; margin: 10px; font-size: 16px; }
+    button { background: #4CAF50; color: white; border: none; cursor: pointer; border-radius: 5px; }
     button:hover { background: #45a049; }
+    #downloadLink { display: none; margin-top: 20px; }
   </style>
 </head>
 <body>
   <h1>video fix for getcustomasset()</h1>
-  <p>Upload a video file and get a fixed MP4 back.</p>
+  <p>Upload a video file and download the fixed version.</p>
 
-  <form id="uploadForm" method="post" enctype="multipart/form-data" action="/api/fix">
+  <form id="uploadForm">
     <input type="file" name="file" accept="video/*" required />
     <br>
-    <button type="submit">Fix Video</button>
+    <button type="submit">fix video</button>
   </form>
+
+  <div id="downloadLink">
+    <h3>video fixed:3</h3>
+    <a id="videoUrl" href="#" download>download fixed video</a>
+  </div>
+
+  <script>
+    document.getElementById("uploadForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const formData = new FormData(e.target);
+
+      const res = await fetch("/api/fix", { method: "POST", body: formData });
+      const data = await res.json();
+
+      if (data.url) {
+        const link = document.getElementById("videoUrl");
+        link.href = data.url;
+        document.getElementById("downloadLink").style.display = "block";
+      } else {
+        alert("Error fixing video: " + (data.error || "Unknown error"));
+      }
+    });
+  </script>
 </body>
 </html>
