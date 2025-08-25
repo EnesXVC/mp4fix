@@ -2,11 +2,11 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Video Fix Server</title>
+  <title>video fix</title>
   <style>
-    body { font-family: Arial, sans-serif; text-align: center; padding: 50px; }
-    h1 { color: #333; }
-    form { margin-top: 30px; }
+    body { font-family: Arial, sans-serif; text-align: center; padding: 50px; background: #f4f4f4; }
+    h1 { color: #222; }
+    form { margin-top: 30px; background: white; padding: 20px; border-radius: 10px; display: inline-block; }
     input, button {
       padding: 10px;
       margin: 10px;
@@ -17,13 +17,14 @@
       color: white; 
       border: none; 
       cursor: pointer;
+      border-radius: 5px;
     }
     button:hover { background: #45a049; }
   </style>
 </head>
 <body>
-  <h1>🎬 Video Fix Tool</h1>
-  <p>Select a video file and click "Fix Video".</p>
+  <h1>video fix for getcustomasset()</h1>
+  <p>Upload a video file and get a fixed MP4 back.</p>
 
   <form id="uploadForm" method="post" enctype="multipart/form-data" action="/api/fix">
     <input type="file" name="file" accept="video/*" required />
