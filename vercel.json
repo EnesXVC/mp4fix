@@ -4,6 +4,7 @@
     { "src": "api/fix.js", "use": "@vercel/node" }
   ],
   "routes": [
-    { "src": "/api/fix", "dest": "/api/fix.js" }
+    { "src": "/api/fix", "dest": "/api/fix.js" },
+    { "src": "/(.*)", "dest": "/public/index.html" }
   ]
 }
