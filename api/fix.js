@@ -10,10 +10,12 @@ const upload = multer({ dest: "/tmp" });
 ffmpeg.setFfmpegPath(ffmpegPath);
 
 app.post("/api/fix", upload.single("file"), (req, res) => {
-  if (!req.file) return res.status(400).send("No file uploaded");
+  if (!req.file) return res.status(400).json({ error: "No file uploaded" });
 
   const inputPath = req.file.path;
-  const outputPath = path.join("/tmp", "fixed_" + Date.now() + ".mp4");
+  const fileName = "fixed_" + Date.now() + ".mp4";
+  const outputPath = path.join("/tmp", fileName);
+  const publicPath = path.join(process.cwd(), "public", "fixed", fileName);
 
   ffmpeg(inputPath)
     .videoCodec("libx264")
@@ -25,14 +27,14 @@ app.post("/api/fix", upload.single("file"), (req, res) => {
       "-f mp4"
     ])
     .on("end", () => {
-      res.download(outputPath, "fixed_video.mp4", () => {
-        fs.unlink(inputPath, () => {});
-        fs.unlink(outputPath, () => {});
-      });
+      fs.copyFileSync(outputPath, publicPath);
+      fs.unlinkSync(inputPath);
+      fs.unlinkSync(outputPath);
+      res.json({ url: `/fixed/${fileName}` });
     })
     .on("error", (err) => {
       console.error("FFmpeg error:", err);
-      res.status(500).send("FFmpeg error: " + err.message);
+      res.status(500).json({ error: "FFmpeg error: " + err.message });
     })
     .save(outputPath);
 });
