@@ -1,6 +1,12 @@
-"dependencies": {
-  "express": "^4.19.2",
-  "multer": "^1.4.5-lts.1",
-  "fluent-ffmpeg": "^2.1.2",
-  "ffmpeg-static": "^5.2.0",
+{
+  "name": "video-fix-server",
+  "version": "1.0.0",
+  "main": "api/fix.js",
+  "type": "module",
+  "dependencies": {
+    "express": "^4.19.2",
+    "multer": "^1.4.5-lts.1",
+    "fluent-ffmpeg": "^2.1.2",
+    "ffmpeg-static": "^5.2.0"
+  }
 }
